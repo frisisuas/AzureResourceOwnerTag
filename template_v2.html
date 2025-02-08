@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resource Group Notification</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    .container {
+      margin: 20px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-top: 1em;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    th {
+      background: #0072c6;
+      color: #ffffff;
+      padding: 8px;
+      text-align: center;
+    }
+
+    td {
+      border: 1px solid #cccccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    p {
+      line-height: 1.4em;
+      margin-bottom: 1em;
+    }
+
+    .important-note {
+      font-weight: bold;
+    }
+
+    .small-text {
+      font-size: 0.9em;
+      color: #555555;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Imagen de cabecera (referida con cid para envío inline) -->
+  <img src="cid:tagging.png" alt="Tagging Header Image"/>
+
+  <div class="container">
+    <p>Hi,</p>
+
+    <p>
+      You are receiving this email because you were identified as a potential owner of 
+      one or more Azure Resource Groups (RGs). An <b>ALIAS TAG</b> was automatically 
+      applied to the RG(s) to mark you as the owner:
+    </p>
+
+    <!-- Aquí se reemplaza _TABLE_ dinámicamente con el script -->
+    <table>
+      <thead>
+        <tr>
+          <th>Resource Group</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        _TABLE_
+      </tbody>
+    </table>
+
+    <p>Please verify, and if needed, correct the <i>owner</i> tag.</p>
+
+    <p class="important-note">
+      Important Note: All resources above have been tagged for <b>deletion</b> 
+      in 1 month from now (<span style="color:red;">_DATE_</span>). If they are needed longer, 
+      please modify the <i>deleteAfter</i> tag on the RG(s).
+    </p>
+
+    <p class="small-text">
+      <i>This is an automated email. No additional action beyond what is described above is required.</i>
+    </p>
+
+    <p>Thanks!</p>
+  </div>
+</body>
+</html>
