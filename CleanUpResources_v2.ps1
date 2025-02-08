@@ -1,5 +1,32 @@
+<#
+.SYNOPSIS
+  Script de limpieza de Resource Groups basado en etiquetas de expiración.
+  Envía correos de notificación a los 'owners' según las etiquetas.
+
+.DESCRIPTION
+  - Busca en todos los RGs la etiqueta 'deleteAfter' (fecha).
+  - Si la fecha ya está vencida según $PastMaxExpiryDays, se consideran "Expirados".
+  - Si la fecha está demasiado lejos según $FutureMaxExpiryDays, se notifica aparte.
+  - Usa las etiquetas 'owner' o 'resourceowner' (en ese orden) como email de contacto.
+  - Envía correo combinando $To y los dueños que encuentre.
+  - Usa plantillas HTML descargadas de URL, con imágenes inline.
+
+.PARAMETER WhatIf
+  Simulación de la acción: muestra qué se enviaría sin ejecutar el envío real a los owners.
+
+.PARAMETER To
+  Dirección(es) de correo principal(es) a las que siempre enviamos notificaciones.
+
+.PARAMETER PastMaxExpiryDays
+  Días por encima de la fecha de expiración para considerar un RG "vencido".
+  Por ejemplo, si pasaron 3 días de la fecha de expiración, entra en la lista.
+
+.PARAMETER FutureMaxExpiryDays
+  Días futuros que, si un RG supera, se clasifica como "expiración lejana".
+
 #requires -Module Az.Resources
 #requires -Module Az.Accounts
+#>
 
 [CmdletBinding(SupportsShouldProcess = $true)]
 Param(
@@ -299,7 +326,7 @@ if ($tooFarOutExpiry.Count -gt 0) {
 
     $subjectFuture = "$($tooFarOutExpiry.Count) Resource Groups con Expiración > $FutureMaxExpiryDays días"
 
-    # En este caso, tradicionalmente solo se envía a $To (ajusta si quieres añadir owners)
+    # Por convención, tradicionalmente se envía solo a $To (ajusta si lo quieres cambiar)
     $toArray = $To -split ";"
 
     if ($PSCmdlet.ShouldProcess("Enviar correo de RGs con expiración lejana", "Envío de correo a: $To")) {
